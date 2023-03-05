@@ -1,6 +1,7 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import mealsImage from "../../assets/meals.jpg";
+import HeaderCartButton from "./HeaderCartButton";
 
 const Header = () => {
   return (
@@ -22,15 +23,26 @@ const Header = () => {
           zIndex: 10,
         }}
       >
-        <Typography variant="h4">ReactMeals</Typography>
-        <Button
+        <Grid
+          container
           sx={{
-            color: "white",
-            backgroundColor: "#5a1613",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          Cart
-        </Button>
+          <Grid item>
+            <Typography variant="h4">ReactMeals</Typography>
+          </Grid>
+          <Grid item sm={6} md={6} lg={4}>
+            <HeaderCartButton
+              buttonText="Your Cart"
+              badge={3}
+              onClick={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <Box
         sx={{
