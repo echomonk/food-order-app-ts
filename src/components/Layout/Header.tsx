@@ -3,7 +3,10 @@ import React from "react";
 import mealsImage from "../../assets/meals.jpg";
 import HeaderCartButton from "./HeaderCartButton";
 
-const Header = () => {
+type HeaderProps = {
+  onShowCart: () => void;
+};
+const Header = ({ onShowCart }: HeaderProps) => {
   return (
     <React.Fragment>
       <Box
@@ -37,9 +40,7 @@ const Header = () => {
             <HeaderCartButton
               buttonText="Your Cart"
               badge={3}
-              onClick={function (): void {
-                throw new Error("Function not implemented.");
-              }}
+              onClick={onShowCart}
             />
           </Grid>
         </Grid>

@@ -1,5 +1,7 @@
+import { List, Stack } from "@mui/material";
 import React from "react";
 import Card from "../UI/Card";
+import MealItem from "./MealItem/MealItem";
 
 export type DummyMealsProps = {
   id: string;
@@ -37,13 +39,32 @@ const DUMMY_MEALS: DummyMealsProps[] = [
 
 const AvailableMeals = () => {
   const availableMeals = DUMMY_MEALS.map((meal) => {
-    return <li key={meal.id}>{meal.name}</li>;
+    return (
+      <MealItem
+        id={meal.id}
+        name={meal.name}
+        description={meal.description}
+        price={meal.price}
+      />
+    );
   });
 
   return (
-    <Card>
-      <ul>{availableMeals}</ul>
-    </Card>
+    <Stack
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-between",
+        width: "100%",
+        maxWidth: "40rem",
+        m: "2rem auto",
+      }}
+    >
+      <Card>
+        {/* unordered list */}
+        <List>{availableMeals}</List>
+      </Card>
+    </Stack>
   );
 };
 
