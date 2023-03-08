@@ -61,7 +61,6 @@ const AvailableMeals = () => {
       }}
     >
       <Card>
-        {/* unordered list */}
         <List>{availableMeals}</List>
       </Card>
     </Stack>

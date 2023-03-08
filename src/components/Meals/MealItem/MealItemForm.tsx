@@ -14,7 +14,7 @@ const MealItemForm = ({ id }: MealItemFormProps) => {
       }}
     >
       <Stack
-        direction="row"
+        direction="column"
         spacing={1}
         sx={{
           display: "flex",
@@ -27,23 +27,39 @@ const MealItemForm = ({ id }: MealItemFormProps) => {
           mr: 2,
         }}
       >
-        <Input
-          id={"Amount_" + id}
-          type="number"
-          inputProps={{
-            min: "1",
-            max: "5",
-            step: "1",
-            defaultValue: "1",
-          }}
+        <Stack
+          direction="row"
+          spacing={1}
           sx={{
-            width: "3rem",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            font: "inherit",
-            pl: "0.5rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "20rem",
+            maxHeight: "3rem",
+            pt: 2,
+            mr: 2,
           }}
-        />
+        >
+          <label htmlFor={"Amount_" + id}>Amount</label>
+          <Input
+            id={"Amount_" + id}
+            type="number"
+            inputProps={{
+              min: "1",
+              max: "5",
+              step: "1",
+              defaultValue: "1",
+            }}
+            sx={{
+              width: "3rem",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              font: "inherit",
+              pl: "0.5rem",
+            }}
+          />
+        </Stack>
         <Button
           sx={{
             font: "inherit",

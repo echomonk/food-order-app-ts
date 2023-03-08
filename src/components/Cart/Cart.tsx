@@ -3,8 +3,8 @@ import { Box, Button, List, Paper, Stack, Typography } from "@mui/material";
 import Modal from "../UI/Modal";
 
 type CartProps = {
-  onClose: () => void;
   isOpen: boolean;
+  onClose: () => void;
 };
 
 const Cart = ({ onClose, isOpen }: CartProps) => {
@@ -12,6 +12,9 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
     <List
       sx={{
         listStyle: "none",
+        margin: 0,
+        padding: 0,
+        maxHeight: "20rem",
         overflow: "auto",
       }}
     >
@@ -47,22 +50,90 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
           }}
         >
           <Box>{cartItems}</Box>
-          <Typography>Total Amount</Typography>
-          <Typography>15.62</Typography>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+              margin: "1rem 0",
+            }}
+          >
+            Total Amount
+          </Typography>
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+              margin: "1rem 0",
+            }}
+          >
+            15.62
+          </Typography>
         </Stack>
         <Stack
-          direction={"row"}
+          direction={{ xs: "column", sm: "row" }}
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "space-around",
             fontWeight: "bold",
             width: "100%",
             height: "100%",
+            my: 1,
           }}
         >
-          <Button onClick={onClose}>Close</Button>
-          <Button>Order</Button>
+          <Button
+            onClick={onClose}
+            variant="contained"
+            sx={{
+              font: "inherit",
+              cursor: "pointer",
+              backgroundColor: "#8a2b06",
+              border: "1px solid #8a2b06",
+              color: "white",
+              p: "0.25rem 2rem",
+              borderRadius: "20px",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#ad5502",
+                border: "1px solid #ad5502",
+              },
+              active: {
+                backgroundColor: "#641e03",
+                borderColor: "#641e03",
+              },
+            }}
+          >
+            Close
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              font: "inherit",
+              cursor: "pointer",
+              backgroundColor: "#8a2b06",
+              border: "1px solid #8a2b06",
+              color: "white",
+              p: "0.25rem 2rem",
+              borderRadius: "20px",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#ad5502",
+                border: "1px solid #ad5502",
+              },
+              active: {
+                backgroundColor: "#641e03",
+                borderColor: "#641e03",
+              },
+            }}
+          >
+            Order
+          </Button>
         </Stack>
       </Paper>
     </Modal>
