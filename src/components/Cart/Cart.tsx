@@ -1,19 +1,17 @@
 import React from "react";
-import { Button, List, Stack, Typography } from "@mui/material";
+import { Box, Button, List, Paper, Stack, Typography } from "@mui/material";
 import Modal from "../UI/Modal";
 
 type CartProps = {
   onClose: () => void;
+  isOpen: boolean;
 };
 
-const Cart = ({ onClose }: CartProps) => {
+const Cart = ({ onClose, isOpen }: CartProps) => {
   const cartItems = (
     <List
       sx={{
         listStyle: "none",
-        m: 0,
-        p: 0,
-        maxHeight: "20rem",
         overflow: "auto",
       }}
     >
@@ -31,25 +29,42 @@ const Cart = ({ onClose }: CartProps) => {
   );
 
   return (
-    <Modal onClose={onClose}>
-      {cartItems}
-      <Stack
+    <Modal onClose={onClose} open={isOpen}>
+      <Paper
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontWeight: "bold",
-          fontSize: "1.5rem",
-          m: "1rem 0",
+          width: 400,
         }}
       >
-        <Typography>Total Amount</Typography>
-        <Typography>15.62</Typography>
-      </Stack>
-      <Stack direction={"row"}>
-        <Button onClick={onClose}>Close</Button>
-        <Button>Order</Button>
-      </Stack>
+        <Stack
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Box>{cartItems}</Box>
+          <Typography>Total Amount</Typography>
+          <Typography>15.62</Typography>
+        </Stack>
+        <Stack
+          direction={"row"}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: "bold",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Button onClick={onClose}>Close</Button>
+          <Button>Order</Button>
+        </Stack>
+      </Paper>
     </Modal>
   );
 };
