@@ -3,6 +3,7 @@ import Cart from "./components/Cart/Cart";
 // import "./App.css";
 import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
+import { CartContextProvider } from "./store/CartContext";
 
 function App() {
   const [isCartVisible, setIsCartVisible] = useState<boolean>(false);
@@ -16,7 +17,7 @@ function App() {
   };
 
   return (
-    <React.Fragment>
+    <CartContextProvider>
       {isCartVisible && (
         <Cart onClose={hideCartHandler} isOpen={isCartVisible} />
       )}
@@ -24,7 +25,7 @@ function App() {
       <main>
         <Meals />
       </main>
-    </React.Fragment>
+    </CartContextProvider>
   );
 }
 

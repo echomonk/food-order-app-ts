@@ -89,23 +89,19 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
         >
           <Button
             onClick={onClose}
-            variant="contained"
+            variant="outlined"
             sx={{
               font: "inherit",
-              cursor: "pointer",
-              backgroundColor: "#8a2b06",
               border: "1px solid #8a2b06",
-              color: "white",
+              color: "#8a2b06",
               p: "0.25rem 2rem",
               borderRadius: "20px",
               fontWeight: "bold",
+              boxShadow: 5,
               "&:hover": {
                 backgroundColor: "#ad5502",
                 border: "1px solid #ad5502",
-              },
-              active: {
-                backgroundColor: "#641e03",
-                borderColor: "#641e03",
+                color: "white",
               },
             }}
           >
@@ -122,13 +118,10 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
               p: "0.25rem 2rem",
               borderRadius: "20px",
               fontWeight: "bold",
+              boxShadow: 5,
               "&:hover": {
                 backgroundColor: "#ad5502",
                 border: "1px solid #ad5502",
-              },
-              active: {
-                backgroundColor: "#641e03",
-                borderColor: "#641e03",
               },
             }}
           >
