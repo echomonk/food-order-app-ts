@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 
-type CartItem = {
+export type CartItemProps = {
   id: string;
   name: string;
   price: number;
@@ -8,19 +8,21 @@ type CartItem = {
 };
 
 type CartState = {
-  items: CartItem[];
+  items: CartItemProps[];
   totalAmount: number;
 };
 
 type CartAction =
-  | { type: "ADD"; item: CartItem }
-  | { type: "REMOVE"; id: string };
+  | { type: "ADD"; item: CartItemProps }
+  | { type: "ADD_ONE_ITEM"; item: CartItemProps }
+  | { type: "REMOVE"; item: CartItemProps };
 
 type CartContextProps = {
-  items: CartItem[];
+  items: CartItemProps[];
   totalAmount: number;
-  addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
+  addItem: (item: CartItemProps) => void;
+  addOneItem: (item: CartItemProps) => void;
+  removeItem: (item: CartItemProps) => void;
 };
 
 const initialCartState: CartState = {
@@ -28,26 +30,97 @@ const initialCartState: CartState = {
   totalAmount: 0,
 };
 
-const cartReducer = (state: CartState, action: CartAction): CartState => {
+const cartReducer = (state: CartState, action: CartAction) => {
   if (action.type === "ADD") {
-    const itemsState = state.items.concat(action.item);
+    // Updating amount state
     const amountState =
       state.totalAmount + action.item.amount * action.item.price;
+
+    // Finding the index of the item
+    const existingItemCartIndex = state.items.findIndex(
+      (item) => item.id === action.item.id
+    );
+    const existingItem = state.items[existingItemCartIndex];
+
+    // Checks if the item is already in the array and then...
+    //...updating the amount of the specific item.
+    let updatedItems;
+    if (existingItem) {
+      const updatedItem = {
+        ...existingItem,
+        amount: existingItem.amount + action.item.amount,
+      };
+      // If not adds the updated item to the updated items array.
+      updatedItems = [...state.items];
+      updatedItems[existingItemCartIndex] = updatedItem;
+    } else {
+      updatedItems = state.items.concat(action.item);
+    }
+
     return {
-      items: itemsState,
+      items: updatedItems,
       totalAmount: amountState,
     };
   }
+
+  if (action.type === "ADD_ONE_ITEM") {
+    // Updating amount state
+    const amountState = state.totalAmount + action.item.price;
+
+    // Finding the index of the item
+    const existingItemCartIndex = state.items.findIndex(
+      (item) => item.id === action.item.id
+    );
+    const existingItem = state.items[existingItemCartIndex];
+
+    // Increasing amount of the specific item by 1.
+    let updatedItems;
+    const updatedItem = {
+      ...existingItem,
+      amount: existingItem.amount + 1,
+    };
+
+    // Add into new array of items.
+    updatedItems = [...state.items];
+    updatedItems[existingItemCartIndex] = updatedItem;
+
+    return {
+      items: updatedItems,
+      totalAmount: amountState,
+    };
+  }
+
   if (action.type === "REMOVE") {
+    // Updating amount state
+    const amountState = state.totalAmount - action.item.price;
+
+    // Finding the index of the item
+    const existingItemCartIndex = state.items.findIndex(
+      (item) => item.id === action.item.id
+    );
+    const existingItem = state.items[existingItemCartIndex];
+
+    // Decreasing amount of the specific item by 1.
+    const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+
+    let updatedItems;
+    updatedItems = [...state.items];
+    updatedItems[existingItemCartIndex] = updatedItem;
+
+    return {
+      items: updatedItems,
+      totalAmount: amountState,
+    };
   }
   return initialCartState;
 };
 
-const CartContext = React.createContext<CartContextProps | null>({
+const CartContext = React.createContext<CartContextProps>({
   items: [],
-  totalAmount: 0,
-  addItem: (item: CartItem) => {},
-  removeItem: (id: string) => {},
+  totalAmount: 4,
+  addItem: (item: CartItemProps) => {},
+  addOneItem: (item: CartItemProps) => {},
+  removeItem: (item: CartItemProps) => {},
 });
 
 export const CartContextProvider = ({
@@ -60,17 +133,23 @@ export const CartContextProvider = ({
     initialCartState
   );
 
-  const handleAddItem = (item: CartItem) => {
+  const handleAddItem = (item: CartItemProps) => {
     dispatchCartState({ type: "ADD", item: item });
   };
-  const handleRemoveItem = (id: string) => {
-    dispatchCartState({ type: "REMOVE", id: id });
+
+  const handleAddOneItem = (item: CartItemProps) => {
+    dispatchCartState({ type: "ADD_ONE_ITEM", item: item });
+  };
+
+  const handleRemoveItem = (item: CartItemProps) => {
+    dispatchCartState({ type: "REMOVE", item: item });
   };
 
   const cartContext: CartContextProps = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: handleAddItem,
+    addOneItem: handleAddOneItem,
     removeItem: handleRemoveItem,
   };
 

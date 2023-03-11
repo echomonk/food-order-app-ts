@@ -1,12 +1,19 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import mealsImage from "../../assets/meals.jpg";
+import CartContext from "../../store/CartContext";
 import HeaderCartButton from "./HeaderCartButton";
 
 type HeaderProps = {
   onShowCart: () => void;
 };
 const Header = ({ onShowCart }: HeaderProps) => {
+  const { items } = useContext(CartContext);
+
+  const numberOfItems = items.reduce((current, item) => {
+    return current + item.amount;
+  }, 0);
+
   return (
     <React.Fragment>
       <Box
@@ -39,7 +46,7 @@ const Header = ({ onShowCart }: HeaderProps) => {
           <Grid item sm={6} md={6} lg={4}>
             <HeaderCartButton
               buttonText="Your Cart"
-              badge={3}
+              badge={numberOfItems}
               onClick={onShowCart}
             />
           </Grid>

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Button, FormControl, Input } from "@mui/material";
 import { Stack } from "@mui/system";
 
 type MealItemFormProps = {
   id: string;
+  onAddItem: (arg0: number) => void;
 };
 
-const MealItemForm = ({ id }: MealItemFormProps) => {
+const MealItemForm = ({ id, onAddItem }: MealItemFormProps) => {
+  const amountInputRef = useRef<any>();
+
+  const submitAddItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount;
+    onAddItem(enteredAmountNumber);
+  };
   return (
     <FormControl
       sx={{
@@ -43,6 +52,7 @@ const MealItemForm = ({ id }: MealItemFormProps) => {
         >
           <label htmlFor={"Amount_" + id}>Amount</label>
           <Input
+            inputRef={amountInputRef}
             id={"Amount_" + id}
             type="number"
             inputProps={{
@@ -61,6 +71,7 @@ const MealItemForm = ({ id }: MealItemFormProps) => {
           />
         </Stack>
         <Button
+          onClick={submitAddItem}
           sx={{
             font: "inherit",
             cursor: "pointer",

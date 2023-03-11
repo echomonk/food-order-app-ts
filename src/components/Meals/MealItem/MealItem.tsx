@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Stack, Typography } from "@mui/material";
 import { DummyMealsProps } from "../AvailableMeals";
 import MealItemForm from "./MealItemForm";
+import CartContext from "../../../store/CartContext";
 
 const MealItem = ({ id, name, description, price }: DummyMealsProps) => {
+  const { addItem } = useContext(CartContext);
   const priceFormatted = `$ ${price.toFixed(2)}`;
+
+  const submitAddItem = (amount: number) => {
+    addItem({ id, name, price, amount: amount });
+  };
+
   return (
     <Stack
       sx={{
@@ -53,7 +60,7 @@ const MealItem = ({ id, name, description, price }: DummyMealsProps) => {
           {priceFormatted}
         </Typography>
       </Stack>
-      <MealItemForm id={id} />
+      <MealItemForm id={id} onAddItem={submitAddItem} />
     </Stack>
   );
 };
