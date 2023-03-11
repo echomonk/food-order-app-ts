@@ -1,6 +1,8 @@
-import React from "react";
-import { Box, Button, List, Paper, Stack, Typography } from "@mui/material";
+import React, { useContext } from "react";
+import { Button, Stack, Typography } from "@mui/material";
 import Modal from "../UI/Modal";
+import CartContext, { CartItemProps } from "../../store/CartContext";
+import CartItem from "./CartItem";
 
 type CartProps = {
   isOpen: boolean;
@@ -8,110 +10,132 @@ type CartProps = {
 };
 
 const Cart = ({ onClose, isOpen }: CartProps) => {
-  const cartItems = (
-    <List
-      sx={{
-        listStyle: "none",
-        margin: 0,
-        padding: 0,
-        maxHeight: "20rem",
-        overflow: "auto",
-      }}
-    >
-      {[
-        {
-          id: "c1",
-          name: "Sushi",
-          amount: 2,
-          price: 12.99,
-        },
-      ].map((item) => (
-        <li>{item.name}</li>
-      ))}
-    </List>
-  );
+  const { totalAmount, items, addOneItem, removeItem } =
+    useContext(CartContext);
+
+  const hasItems = items.length > 0;
+
+  const hasNoAmount = (item: CartItemProps) => {
+    if (item.amount <= 0) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleRemoveItem = (item: CartItemProps) => {
+    removeItem(item);
+  };
+
+  const handleAddItem = (item: CartItemProps) => {
+    addOneItem(item);
+  };
+
+  const CartItems = () => {
+    return (
+      <React.Fragment>
+        {items.map((item) => (
+          <CartItem
+            key={item.id}
+            name={item.name}
+            price={item.price}
+            amount={item.amount}
+            onRemove={handleRemoveItem.bind(null, item)}
+            onAdd={handleAddItem.bind(null, item)}
+            itemHasNoAmount={hasNoAmount(item)}
+          />
+        ))}
+      </React.Fragment>
+    );
+  };
 
   return (
     <Modal onClose={onClose} open={isOpen}>
-      <Paper
+      <Stack
         sx={{
-          width: 400,
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
+          fontWeight: "bold",
+          width: "100%",
+          height: "100%",
+          pl: 2,
         }}
       >
-        <Stack
+        <CartItems />
+      </Stack>
+      <Stack
+        direction={"row"}
+        sx={{
+          px: 2,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography
           sx={{
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            justifyContent: "center",
             fontWeight: "bold",
-            fontSize: "1.5rem",
-            width: "100%",
-            height: "100%",
+            fontSize: 20,
+            margin: "1rem 0",
           }}
         >
-          <Box>{cartItems}</Box>
-          <Typography
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              margin: "1rem 0",
-            }}
-          >
-            Total Amount
-          </Typography>
-          <Typography
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              margin: "1rem 0",
-            }}
-          >
-            15.62
-          </Typography>
-        </Stack>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
+          Total Amount:
+        </Typography>
+        <Typography
           sx={{
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            justifyContent: "space-around",
             fontWeight: "bold",
-            width: "100%",
-            height: "100%",
-            my: 1,
+            fontSize: 20,
+            margin: "1rem 0",
           }}
         >
-          <Button
-            onClick={onClose}
-            variant="outlined"
-            sx={{
-              font: "inherit",
-              border: "1px solid #8a2b06",
-              color: "#8a2b06",
-              p: "0.25rem 2rem",
-              borderRadius: "20px",
-              fontWeight: "bold",
-              boxShadow: 5,
-              "&:hover": {
-                backgroundColor: "#ad5502",
-                border: "1px solid #ad5502",
-                color: "white",
-              },
-            }}
-          >
-            Close
-          </Button>
+          {`$${totalAmount.toFixed(2)}`}
+        </Typography>
+      </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={1}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          fontWeight: "bold",
+          width: "100%",
+          height: "100%",
+          px: 2,
+          my: 1,
+        }}
+      >
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          sx={{
+            font: "inherit",
+            border: "1px solid #8a2b06",
+            color: "#8a2b06",
+            p: 0.5,
+            px: 4,
+            borderRadius: 20,
+            fontWeight: "bold",
+            boxShadow: 5,
+            "&:hover": {
+              backgroundColor: "#ad5502",
+              border: "1px solid #ad5502",
+              color: "white",
+            },
+          }}
+        >
+          Close
+        </Button>
+        {hasItems && (
           <Button
             variant="contained"
             sx={{
               font: "inherit",
-              cursor: "pointer",
               backgroundColor: "#8a2b06",
               border: "1px solid #8a2b06",
               color: "white",
@@ -127,8 +151,8 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
           >
             Order
           </Button>
-        </Stack>
-      </Paper>
+        )}
+      </Stack>
     </Modal>
   );
 };
