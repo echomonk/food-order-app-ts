@@ -1,4 +1,4 @@
-import { List, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import React from "react";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
@@ -41,6 +41,7 @@ const AvailableMeals = () => {
   const availableMeals = DUMMY_MEALS.map((meal) => {
     return (
       <MealItem
+        key={meal.id}
         id={meal.id}
         name={meal.name}
         description={meal.description}
@@ -60,9 +61,7 @@ const AvailableMeals = () => {
         m: "2rem auto",
       }}
     >
-      <Card>
-        <List>{availableMeals}</List>
-      </Card>
+      <Card>{availableMeals}</Card>
     </Stack>
   );
 };
