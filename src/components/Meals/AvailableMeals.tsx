@@ -35,6 +35,12 @@ const DUMMY_MEALS: DummyMealsProps[] = [
     description: "Healthy...and green...",
     price: 18.99,
   },
+  {
+    id: "m5",
+    name: "Sandwich",
+    description: "Smoked Turkey...and tasty...",
+    price: 10.99,
+  },
 ];
 
 const AvailableMeals = () => {

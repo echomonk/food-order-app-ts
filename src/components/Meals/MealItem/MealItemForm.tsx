@@ -8,14 +8,21 @@ type MealItemFormProps = {
 };
 
 const MealItemForm = ({ id, onAddItem }: MealItemFormProps) => {
+  // Get amount input ref
   const amountInputRef = useRef<any>();
 
+  /**
+   * Submit add item
+   * @param e
+   * @returns void
+   */
   const submitAddItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const enteredAmount = amountInputRef.current.value;
     const enteredAmountNumber = +enteredAmount;
     onAddItem(enteredAmountNumber);
   };
+
   return (
     <FormControl
       sx={{

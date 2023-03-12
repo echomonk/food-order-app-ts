@@ -1,4 +1,4 @@
-import { List, Typography, Box, Button } from "@mui/material";
+import { List, Typography, Box, Button, Stack, Grid } from "@mui/material";
 
 type Props = {
   name: string;
@@ -23,60 +23,71 @@ const CartItem = ({
     <List
       sx={{
         display: "flex",
-        justifyContent: " space-between",
+        justifyContent: "space-between",
         alignItems: "center",
-        borderCottom: "2px solid #8a2b06",
-        padding: "1rem 0",
-        margin: "1rem 0",
+        borderBottom: "2px solid #8a2b06",
+        width: "100%",
       }}
     >
-      <Box>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Grid item xs={6}>
+          <Stack direction={"column"} spacing={1}>
+            <Typography
+              sx={{
+                margin: "0 0 0.5rem 0",
+                color: "#363636",
+              }}
+            >
+              {name}
+            </Typography>
+            <Box
+              sx={{
+                width: "10rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  color: "#8a2b06",
+                }}
+              >
+                {fixedPrice}
+              </Typography>
+            </Box>
+          </Stack>
+        </Grid>
+      </Grid>
+      <Stack
+        direction={"row"}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
         <Typography
           sx={{
-            margin: "0 0 0.5rem 0",
+            fontWeight: "bold",
+            border: "1px solid #ccc",
+            padding: "0.25rem 0.75rem",
+            borderRadius: "6px",
             color: "#363636",
           }}
         >
-          {name}
+          {amount}
         </Typography>
-        <Box
-          sx={{
-            width: "10rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              color: "#8a2b06",
-            }}
-          >
-            {fixedPrice}
-          </Typography>
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              border: "1px solid #ccc",
-              padding: "0.25rem 0.75rem",
-              borderRadius: "6px",
-              color: "#363636",
-            }}
-          >
-            {amount}
-          </Typography>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
         <Button
           disabled={itemHasNoAmount}
           sx={{
+            ml: 1,
             height: "1rem",
             minWidth: "2rem",
             font: "inherit",
@@ -88,8 +99,6 @@ const CartItem = ({
             border$adius: "6px",
             backgroundColor: "transparent",
             cursor: "pointer",
-            marginLeft: "1rem",
-            margin: "0.25rem",
             "&:hover": {
               backgroundColor: "#8a2b06",
               color: "white",
@@ -101,6 +110,7 @@ const CartItem = ({
         </Button>
         <Button
           sx={{
+            ml: 1,
             height: "1rem",
             minWidth: "2rem",
             font: "inherit",
@@ -112,8 +122,6 @@ const CartItem = ({
             borderRadius: "6px",
             backgroundColor: "transparent",
             cursor: "pointer",
-            marginLeft: "1rem",
-            margin: "0.25rem",
             "&:hover": {
               backgroundColor: "#8a2b06",
               color: "white",
@@ -123,7 +131,7 @@ const CartItem = ({
         >
           +
         </Button>
-      </Box>
+      </Stack>
     </List>
   );
 };

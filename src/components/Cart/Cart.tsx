@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, DialogActions, Stack, Typography } from "@mui/material";
 import Modal from "../UI/Modal";
 import CartContext, { CartItemProps } from "../../store/CartContext";
 import CartItem from "./CartItem";
@@ -10,26 +10,45 @@ type CartProps = {
 };
 
 const Cart = ({ onClose, isOpen }: CartProps) => {
+  // Get cart context
   const { totalAmount, items, addOneItem, removeItem } =
     useContext(CartContext);
 
+  // Check if cart has items
   const hasItems = items.length > 0;
 
-  const hasNoAmount = (item: CartItemProps) => {
-    if (item.amount <= 0) {
+  /**
+   * Check if item has no amount
+   * @param item
+   * @returns boolean
+   */
+  const hasNoAmount = (amount: number) => {
+    if (amount <= 0) {
       return true;
     }
     return false;
   };
 
+  /**
+   *  Remove item from cart
+   * @param item
+   */
   const handleRemoveItem = (item: CartItemProps) => {
     removeItem(item);
   };
 
+  /**
+   * Add one item to cart
+   * @param item
+   */
   const handleAddItem = (item: CartItemProps) => {
     addOneItem(item);
   };
 
+  /**
+   * Render cart items
+   * @returns JSX.Element CartItems
+   */
   const CartItems = () => {
     return (
       <React.Fragment>
@@ -41,7 +60,7 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
             amount={item.amount}
             onRemove={handleRemoveItem.bind(null, item)}
             onAdd={handleAddItem.bind(null, item)}
-            itemHasNoAmount={hasNoAmount(item)}
+            itemHasNoAmount={hasNoAmount(item.amount)}
           />
         ))}
       </React.Fragment>
@@ -51,24 +70,25 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
   return (
     <Modal onClose={onClose} open={isOpen}>
       <Stack
+        direction={"column"}
         sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          fontWeight: "bold",
+          justifyContent: "space-between",
+          alignItems: "inherit",
           width: "100%",
-          height: "100%",
-          pl: 2,
+          maxHeight: 300,
+          overflowY: "auto",
         }}
       >
         <CartItems />
       </Stack>
+
       <Stack
         direction={"row"}
         sx={{
-          px: 2,
           justifyContent: "space-between",
           alignItems: "center",
+          width: "100%",
+          pt: 2,
         }}
       >
         <Typography
@@ -78,7 +98,6 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
             alignItems: "center",
             fontWeight: "bold",
             fontSize: 20,
-            margin: "1rem 0",
           }}
         >
           Total Amount:
@@ -90,24 +109,17 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
             alignItems: "center",
             fontWeight: "bold",
             fontSize: 20,
-            margin: "1rem 0",
           }}
         >
           {`$${totalAmount.toFixed(2)}`}
         </Typography>
       </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={1}
+      <DialogActions
         sx={{
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
-          fontWeight: "bold",
-          width: "100%",
-          height: "100%",
-          px: 2,
-          my: 1,
+          width: 500,
         }}
       >
         <Button
@@ -140,7 +152,7 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
               border: "1px solid #8a2b06",
               color: "white",
               p: "0.25rem 2rem",
-              borderRadius: "20px",
+              borderRadius: 20,
               fontWeight: "bold",
               boxShadow: 5,
               "&:hover": {
@@ -152,7 +164,7 @@ const Cart = ({ onClose, isOpen }: CartProps) => {
             Order
           </Button>
         )}
-      </Stack>
+      </DialogActions>
     </Modal>
   );
 };

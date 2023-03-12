@@ -115,6 +115,7 @@ const cartReducer = (state: CartState, action: CartAction) => {
   return initialCartState;
 };
 
+// Creating the context
 const CartContext = React.createContext<CartContextProps>({
   items: [],
   totalAmount: 4,
@@ -123,28 +124,43 @@ const CartContext = React.createContext<CartContextProps>({
   removeItem: (item: CartItemProps) => {},
 });
 
+// Creating the provider
 export const CartContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+  // Context state
   const [cartState, dispatchCartState] = useReducer(
     cartReducer,
     initialCartState
   );
 
+  /**
+   * Adding item to the cart
+   * @param item
+   */
   const handleAddItem = (item: CartItemProps) => {
     dispatchCartState({ type: "ADD", item: item });
   };
 
+  /**
+   * Adding one item to the cart
+   * @param item
+   */
   const handleAddOneItem = (item: CartItemProps) => {
     dispatchCartState({ type: "ADD_ONE_ITEM", item: item });
   };
 
+  /**
+   * Removing item from the cart
+   * @param item
+   */
   const handleRemoveItem = (item: CartItemProps) => {
     dispatchCartState({ type: "REMOVE", item: item });
   };
 
+  // Context value
   const cartContext: CartContextProps = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,

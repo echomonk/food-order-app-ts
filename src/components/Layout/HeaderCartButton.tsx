@@ -48,9 +48,13 @@ const ButtonBaseSx = {
   fontWeight: "bold",
   "&:hover": {
     backgroundColor: "#2c0d00",
+    // transform: "translateY(-2px)",
+    // transition: "bump 300ms ease-out",
   },
   "&:active": {
     backgroundColor: "#2c0d00",
+    // transform: "translateY(1px)",
+    // transition: "bump 300ms ease-out",
   },
   "& .icon": {
     width: "1.35rem",
@@ -69,25 +73,5 @@ const ButtonBaseSx = {
   },
   "&:active .badge": {
     backgroundColor: "#92320c",
-  },
-  "& .bump": {
-    animation: "bump 300ms ease-out",
-  },
-  "@keyframes bump": {
-    "0%": {
-      transform: "scale(1)",
-    },
-    "10%": {
-      transform: "scale(0.9)",
-    },
-    "30%": {
-      transform: "scale(1.1)",
-    },
-    "50%": {
-      transform: "scale(1.15)",
-    },
-    "100%": {
-      transform: "scale(1)",
-    },
   },
 };

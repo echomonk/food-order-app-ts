@@ -5,9 +5,17 @@ import MealItemForm from "./MealItemForm";
 import CartContext from "../../../store/CartContext";
 
 const MealItem = ({ id, name, description, price }: DummyMealsProps) => {
+  // Get cart context
   const { addItem } = useContext(CartContext);
+
+  // Format price
   const priceFormatted = `$ ${price.toFixed(2)}`;
 
+  /**
+   * Submit add item
+   * @param amount
+   * @returns void
+   */
   const submitAddItem = (amount: number) => {
     addItem({ id, name, price, amount: amount });
   };

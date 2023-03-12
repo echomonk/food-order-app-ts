@@ -1,6 +1,11 @@
 import { Paper } from "@mui/material";
 import React from "react";
 
+/**
+ * Card Component
+ * @param children
+ * @returns JSX.Element
+ */
 const Card = ({ children }: { children: React.ReactNode }) => {
   return (
     <Paper

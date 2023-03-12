@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -8,14 +8,20 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
+/**
+ *  Modal Overlay Component
+ * @param children
+ * @returns JSX.Element
+ */
 const ModalOverlay = ({ children, open, onClose }: ModalProps) => {
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      sx={{
-        "&. MuiPaper-root-MuiDialog-paper": {
-          borderRadius: 30,
+      PaperProps={{
+        sx: {
+          borderRadius: 5,
+          maxWidth: 600,
         },
       }}
     >
@@ -28,11 +34,25 @@ const ModalOverlay = ({ children, open, onClose }: ModalProps) => {
       >
         Your Cart
       </DialogTitle>
-      {children}
+      <DialogContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "inherit",
+          justifyContent: "space-between",
+        }}
+      >
+        {children}
+      </DialogContent>
     </Dialog>
   );
 };
 
+/**
+ * Modal Component
+ * @param children
+ * @returns JSX.Element
+ */
 const Modal = ({ onClose, children, open }: ModalProps) => {
   return (
     <React.Fragment>

@@ -8,8 +8,13 @@ type HeaderProps = {
   onShowCart: () => void;
 };
 const Header = ({ onShowCart }: HeaderProps) => {
+  // Get cart context
   const { items } = useContext(CartContext);
 
+  /**
+   * Get number of items in cart
+   * @returns number
+   */
   const numberOfItems = items.reduce((current, item) => {
     return current + item.amount;
   }, 0);
