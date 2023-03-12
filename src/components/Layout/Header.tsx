@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import mealsImage from "../../assets/meals.jpg";
 import CartContext from "../../store/CartContext";
 import HeaderCartButton from "./HeaderCartButton";
@@ -10,6 +10,7 @@ type HeaderProps = {
 const Header = ({ onShowCart }: HeaderProps) => {
   // Get cart context
   const { items } = useContext(CartContext);
+  const [itemAdded, setItemAdded] = useState(false);
 
   /**
    * Get number of items in cart
@@ -18,6 +19,15 @@ const Header = ({ onShowCart }: HeaderProps) => {
   const numberOfItems = items.reduce((current, item) => {
     return current + item.amount;
   }, 0);
+
+  // Side effect to set item added to true...
+  // ...to trigger button animation
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setItemAdded(true);
+  }, [items]);
 
   return (
     <React.Fragment>
@@ -53,6 +63,7 @@ const Header = ({ onShowCart }: HeaderProps) => {
               buttonText="Your Cart"
               badge={numberOfItems}
               onClick={onShowCart}
+              isButtonHighlighted={itemAdded}
             />
           </Grid>
         </Grid>
