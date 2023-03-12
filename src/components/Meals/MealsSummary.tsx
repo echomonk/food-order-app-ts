@@ -11,7 +11,7 @@ const MealsSummary = () => {
         margin: "auto",
         mt: "-10rem",
         position: "relative",
-        backgroundColor: "#383838",
+        backgroundColor: "#ad7e74",
         color: "white",
         borderRadius: "14px",
         padding: "1rem",
